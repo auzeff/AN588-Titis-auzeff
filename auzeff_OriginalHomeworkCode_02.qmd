@@ -1,0 +1,87 @@
+---
+title: "Homework 2"
+author: "Akiva Zeff"
+format:
+  html:
+    toc : true
+    toc-title: "Questions"
+editor: visual
+theme: cayman
+---
+
+![Cute Titi monkey](Cute-Titi.png)
+
+------------------------------------------------------------------------
+
+Every Saturday morning, at the same time, a primatologist goes and sits in the forest to listen for titi monkey calls, counting the number of calls they hear in a 2 hour window from 5am to 7am. Based on previous knowledge, she believes that the mean number of calls she will hear in that time is exactly 15. Let X represent the appropriate Poisson random variable of the number of calls heard in each monitoring session.
+
+------------------------------------------------------------------------
+
+### What is the probability that she will hear more than 8 calls during any given session?
+
+ppois( ) gives me the probability for less than or equal to a number on the Poisson distribution with mean 15:
+
+```{r}
+x <- 8  # I'll primarily be changing the value of x throughout the next few questions
+lambda <- 15  # The mean--it'll stay the same
+prob_over8 <- 1 - ppois(x, lambda)  # I subtract the chance of hearing 8 or fewer calls from 1
+prob_over8
+```
+
+### What is the probability that she will hear no calls in a session?
+
+I use dpois( ) to get the probability of a specific value:
+
+```{r}
+x <- 0
+prob_0 <- dpois(x, lambda)
+prob_0
+```
+
+### What is the probability that she will hear exactly 3 calls in a session?
+
+dpois( ) again:
+
+```{r}
+x <- 3
+prob_3 <- dpois(x, lambda)
+prob_3
+```
+
+### Plot the relevant Poisson mass function over the values in range 0 ≤ x ≤ 30
+
+```{r}
+x <- 0:30  # x is now the range
+probs <- dpois(x, lambda) 
+barplot(probs, names.arg = x, space = 0, xlab = "x", ylab = "Pr(X = x)", main = "Probability Mass Function (Poisson)")
+```
+
+------------------------------------------------------------------------
+
+### Simulate 104 results from this distribution (i.e., 2 years of Saturday monitoring sessions)
+
+In this case i use rpois( ), which generates random values from the distribution:
+
+```{r}
+n <- 104  # The number of results to simulate--takes the place of x
+sim <- rpois(104, lambda)
+sim
+```
+
+### Plot the simulated results using hist() and use xlim() to set the horizontal limits to be from 0 to 30. How does your histogram compare to the shape of the probability mass function you plotted above?
+
+I spruced up my histogram with custom labels and colors to make it look a bit nicer:
+
+```{r}
+sim_hist <- hist(sim, col = "lightblue", main = "Simulated monitoring results", xlim = c(0, 30), xlab = "Number of calls heard")
+```
+
+The distribution of my histogram doesn't look all that much like the probability mass function plot, but that will obviously vary with each simulation run.
+
+------------------------------------------------------------------------
+
+## Challenges I faced
+
+I didn't really encounter any difficulty in the homework questions themselves. The documentation in the "Help" tab for ppois( ), dpois( ), etc. was very helpful and made everything much easier.
+
+It took me a little while to figure out how to add an image to a Quarto document, but then I realized that I could just do it through the "Insert" menu.
